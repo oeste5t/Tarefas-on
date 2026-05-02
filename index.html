@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeraTarefas Pro Studio</title>
     
-    <!-- TAGS DO PWA -->
+    <!-- TAGS DO PWA (Para funcionar offline e instalar) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1d4ed8">
     <link rel="apple-touch-icon" href="icon.png">
@@ -17,98 +17,29 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
         
-        .a4-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-        }
-
+        .a4-wrapper { width: 100%; overflow-x: auto; padding: 2rem; display: flex; justify-content: center; }
         .a4-paper {
-            width: 210mm;
-            min-height: 297mm;
-            background: white;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border: 4px solid #000;
-            padding: 12mm 15mm;
-            box-sizing: border-box;
-            flex-shrink: 0;
-            color: #000;
+            width: 210mm; min-height: 297mm; background: white; position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); border: 4px solid #000;
+            padding: 12mm 15mm; box-sizing: border-box; flex-shrink: 0; color: #000;
         }
 
-        /* Novo Cabeçalho Oficial */
-        .header-box {
-            border: 2px solid #000;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            font-size: 14px;
-        }
+        .header-box { border: 2px solid #000; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+        .header-row { display: flex; gap: 15px; width: 100%; }
+        .header-field { display: flex; align-items: flex-end; flex-grow: 1; }
+        .header-label { font-weight: 700; margin-right: 5px; white-space: nowrap; }
+        .header-line { flex-grow: 1; border-bottom: 1.5px solid #000; min-height: 20px; text-transform: uppercase; padding-left: 5px; font-family: 'Courier New', Courier, monospace; font-weight: bold;}
 
-        .header-row {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-        }
+        /* Estilos do Caça-Palavras */
+        .word-bank-item { border: 1.5px solid #000; padding: 4px 12px; font-size: 13px; text-transform: uppercase; font-weight: 700; min-width: 110px; text-align: center; }
+        .grid-letter { display: inline-block; width: 1.8em; height: 1.8em; line-height: 1.8em; text-align: center; font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: 600; }
+        .is-word-gabarito { background-color: #fde047 !important; border-radius: 50%; color: #000 !important; font-weight: 800; }
 
-        .header-field {
-            display: flex;
-            align-items: flex-end;
-            flex-grow: 1;
-        }
-
-        .header-label {
-            font-weight: 700;
-            margin-right: 5px;
-            white-space: nowrap;
-        }
-
-        .header-line {
-            flex-grow: 1;
-            border-bottom: 1.5px solid #000;
-            min-height: 20px;
-            text-transform: uppercase;
-            padding-left: 5px;
-        }
-
-        .word-bank-item {
-            border: 1.5px solid #000;
-            padding: 4px 12px;
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: 700;
-            min-width: 110px;
-            text-align: center;
-        }
-
-        .grid-letter {
-            display: inline-block;
-            width: 1.8em;
-            height: 1.8em;
-            line-height: 1.8em;
-            text-align: center;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        /* Estilo para o Gabarito (Resposta Correta) */
-        .is-word-gabarito {
-            background-color: #fde047 !important; /* Amarelo */
-            border-radius: 50%;
-            color: #000 !important;
-            font-weight: 800;
-        }
+        /* Estilos de Pautas e Questões */
+        .linha-pautada { width: 100%; border-bottom: 1px solid #94a3b8; height: 1.8rem; margin-top: 0.5rem; }
+        .questao-texto { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; text-align: justify; }
 
         @media print {
             header, aside { display: none !important; }
@@ -119,14 +50,13 @@
 </head>
 <body class="flex flex-col h-screen overflow-hidden">
 
-    <!-- BARRA SUPERIOR -->
     <header class="bg-blue-700 text-white p-4 shadow-lg flex-shrink-0 z-20 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <h1 class="text-xl font-bold tracking-tight">GeraTarefas <span class="font-light opacity-80">Studio</span></h1>
+            <h1 class="text-xl font-bold tracking-tight">GeraTarefas <span class="font-light opacity-80">Universal</span></h1>
         </div>
         <div class="flex gap-2">
             <button onclick="toggleGabarito()" id="btnGabarito" class="px-4 py-2 bg-yellow-400 text-yellow-900 hover:bg-yellow-300 rounded-lg text-sm font-bold transition-all shadow-md mr-2">
-                👁️ Ver Gabarito
+                👁️ Gabarito (Caça-Palavras)
             </button>
             <button onclick="exportar('png')" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold border border-blue-400 transition-all">Baixar PNG</button>
             <button onclick="exportar('pdf')" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 rounded-lg text-sm font-bold transition-all shadow-md">Baixar PDF</button>
@@ -135,17 +65,31 @@
 
     <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
         
-        <!-- PAINEL LATERAL DE CONFIGURAÇÕES -->
         <aside class="w-full lg:w-[420px] bg-white border-r border-slate-200 overflow-y-auto flex-shrink-0 shadow-xl pb-10">
             
-            <!-- Sessão 1: Cabeçalho da Prova -->
             <div class="p-5 border-b border-slate-100 bg-slate-50">
                 <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">1. Cabeçalho da Folha</h2>
                 <div class="space-y-3">
                     <input type="text" id="iEscola" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded" placeholder="Nome da Escola">
+                    
                     <div class="flex gap-2">
                         <input type="text" id="iProfessor" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Professor(a)">
-                        <input type="text" id="iDisciplina" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Disciplina">
+                        
+                        <!-- Lista de Matérias (Datalist permite escolher ou digitar) -->
+                        <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Matéria/Disciplina">
+                        <datalist id="materiasList">
+                            <option value="Língua Portuguesa">
+                            <option value="Matemática">
+                            <option value="História">
+                            <option value="Geografia">
+                            <option value="Ciências">
+                            <option value="Física">
+                            <option value="Química">
+                            <option value="Biologia">
+                            <option value="Inglês">
+                            <option value="Artes">
+                            <option value="Educação Física">
+                        </datalist>
                     </div>
                     
                     <div class="p-3 bg-white border border-slate-200 rounded shadow-sm">
@@ -154,10 +98,9 @@
                             <option value="fund1">Ensino Fundamental I</option>
                             <option value="fund2">Ensino Fundamental II</option>
                             <option value="medio">Ensino Médio</option>
+                            <option value="superior">Ensino Superior / Curso</option>
                         </select>
-                        <select id="iSerie" onchange="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-2">
-                            <!-- Preenchido via Javascript -->
-                        </select>
+                        <select id="iSerie" onchange="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-2"></select>
                     </div>
 
                     <div class="flex gap-2">
@@ -172,46 +115,64 @@
                 </div>
             </div>
 
-            <!-- Sessão 2: Configuração da Tarefa -->
             <div class="p-5">
-                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Configuração do Desafio</h2>
-                <div class="space-y-4">
-                    
+                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Configuração da Tarefa</h2>
+                
+                <label class="text-[10px] font-bold text-slate-500 uppercase">Tipo de Atividade</label>
+                <select id="iTipoAtividade" onchange="mudarPainelConfig()" class="w-full p-2 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-800 mb-4">
+                    <option value="cacapalavras">🧩 Caça-Palavras</option>
+                    <option value="discursiva">✍️ Questões Discursivas (Linhas)</option>
+                    <option value="multipla">✅ Múltipla Escolha (A, B, C, D)</option>
+                    <option value="vf">⚖️ Verdadeiro ou Falso (V ou F)</option>
+                </select>
+
+                <!-- PAINEL: CAÇA PALAVRAS -->
+                <div id="painel-cacapalavras" class="space-y-4 config-painel">
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade</label>
-                        <select id="iDificuldade" onchange="gerar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 bg-white">
+                        <select id="iDificuldade" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
                             <option value="facil">Fácil (Só Horizontal e Vertical)</option>
                             <option value="medio">Médio (Inclui Diagonais)</option>
                             <option value="dificil">Difícil (Diagonais e Palavras Invertidas)</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Palavras (separadas por vírgula)</label>
-                        <textarea id="iPalavras" rows="3" oninput="gerar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS, MATEMÁTICA, PORTUGUÊS</textarea>
+                        <textarea id="iPalavras" rows="3" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS, MATEMÁTICA, PORTUGUÊS</textarea>
                     </div>
-
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado / Instruções</label>
-                        <textarea id="iInstrucoes" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Observe atentamente o caça-palavras abaixo e circule as palavras em destaque:</textarea>
+                        <textarea id="iInstrucoesCP" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Encontre as seguintes palavras no diagrama abaixo:</textarea>
                     </div>
-
-                    <button onclick="gerar()" class="w-full bg-blue-700 text-white font-bold py-3 rounded shadow hover:bg-blue-800 transition-transform active:scale-95">
-                        🔄 Misturar Novamente (Gerar)
-                    </button>
                 </div>
+
+                <!-- PAINEL: QUESTÕES DIVERSAS -->
+                <div id="painel-questoes" class="space-y-4 config-painel hidden">
+                    <div id="config-linhas" class="hidden">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Número de linhas por questão</label>
+                        <input type="number" id="iQtdLinhas" value="4" min="1" max="20" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Cole suas perguntas (Uma por linha)</label>
+                        <textarea id="iTextoQuestoes" rows="8" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex:&#10;Qual é a capital do Brasil?&#10;Quem descobriu o Brasil?"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado / Instruções</label>
+                        <textarea id="iInstrucoesQuest" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Leia atentamente as questões abaixo e responda:</textarea>
+                    </div>
+                </div>
+
+                <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-5 shadow hover:bg-blue-800 transition-transform active:scale-95">
+                    ⚙️ GERAR ATIVIDADE
+                </button>
             </div>
         </aside>
 
-        <!-- PRÉ-VISUALIZAÇÃO DA FOLHA A4 -->
         <section class="flex-1 overflow-y-auto bg-slate-300 a4-wrapper">
             <div id="folha" class="a4-paper flex flex-col">
                 
-                <!-- CABEÇALHO OFICIAL GERADO DINAMICAMENTE -->
                 <div class="header-box" data-html2canvas-ignore="false">
-                    <div class="header-row">
-                        <div class="header-field"><span class="header-label">ESCOLA:</span><div class="header-line" id="vEscola"></div></div>
-                    </div>
+                    <div class="header-row"><div class="header-field"><span class="header-label">ESCOLA:</span><div class="header-line" id="vEscola"></div></div></div>
                     <div class="header-row">
                         <div class="header-field"><span class="header-label">PROFESSOR(A):</span><div class="header-line" id="vProfessor"></div></div>
                         <div class="header-field"><span class="header-label">DISCIPLINA:</span><div class="header-line" id="vDisciplina"></div></div>
@@ -221,18 +182,17 @@
                         <div class="header-field" style="flex-grow: 0.5;"><span class="header-label">Nº:</span><div class="header-line"></div></div>
                     </div>
                     <div class="header-row">
-                        <div class="header-field"><span class="header-label">SÉRIE/ANO:</span><div class="header-line" id="vSerie"></div></div>
+                        <div class="header-field"><span class="header-label">ANO/SÉRIE:</span><div class="header-line" id="vSerie"></div></div>
                         <div class="header-field"><span class="header-label">TURMA:</span><div class="header-line" id="vTurma"></div></div>
                         <div class="header-field"><span class="header-label">TURNO:</span><div class="header-line" id="vTurno"></div></div>
                         <div class="header-field"><span class="header-label">DATA:</span><div class="header-line"></div></div>
                     </div>
                 </div>
 
-                <!-- ENUNCIADO -->
                 <div id="vInstrucoes" class="text-center text-[15px] font-medium mb-6 px-4"></div>
 
-                <!-- CONTEÚDO (CAÇA PALAVRAS) -->
-                <div id="vConteudo" class="flex-1 flex flex-col items-center w-full"></div>
+                <!-- ÁREA DE CONTEÚDO ONDE A MÁGICA ACONTECE -->
+                <div id="vConteudo" class="flex-1 flex flex-col w-full text-black"></div>
 
             </div>
         </section>
@@ -240,16 +200,14 @@
 
     <script>
         const get = id => document.getElementById(id);
-        
         let gridData = [];
         let showingGabarito = false;
-        let finalWords = [];
 
-        // Lógica de Séries dinâmicas
         const seriesDict = {
             'fund1': ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'],
             'fund2': ['6º Ano', '7º Ano', '8º Ano', '9º Ano'],
-            'medio': ['1ª Série', '2ª Série', '3ª Série']
+            'medio': ['1ª Série', '2ª Série', '3ª Série'],
+            'superior': ['Semestre Único', '1º Semestre', '2º Semestre', 'Módulo 1', 'Módulo 2', 'N/A']
         };
 
         function mudarNivel() {
@@ -272,57 +230,85 @@
             get('vSerie').innerText = get('iSerie').value;
             get('vTurma').innerText = get('iTurma').value;
             get('vTurno').innerText = get('iTurno').value;
-            get('vInstrucoes').innerText = get('iInstrucoes').value;
+            
+            const tipo = get('iTipoAtividade').value;
+            if(tipo === 'cacapalavras') {
+                get('vInstrucoes').innerText = get('iInstrucoesCP').value;
+            } else {
+                get('vInstrucoes').innerText = get('iInstrucoesQuest').value;
+            }
+        }
+
+        function mudarPainelConfig() {
+            const tipo = get('iTipoAtividade').value;
+            const btnGabarito = get('btnGabarito');
+            
+            // Mostra/esconde painéis
+            if(tipo === 'cacapalavras') {
+                get('painel-cacapalavras').classList.remove('hidden');
+                get('painel-questoes').classList.add('hidden');
+                btnGabarito.style.display = 'block';
+            } else {
+                get('painel-cacapalavras').classList.add('hidden');
+                get('painel-questoes').classList.remove('hidden');
+                btnGabarito.style.display = 'none'; // Gabarito automático é só pro caça palavras offline
+                
+                if(tipo === 'discursiva') {
+                    get('config-linhas').classList.remove('hidden');
+                } else {
+                    get('config-linhas').classList.add('hidden');
+                }
+            }
+            atualizar();
         }
 
         function toggleGabarito() {
             showingGabarito = !showingGabarito;
             get('btnGabarito').innerText = showingGabarito ? "❌ Ocultar Gabarito" : "👁️ Ver Gabarito";
-            renderGrid();
+            if(get('iTipoAtividade').value === 'cacapalavras') renderGrid();
         }
 
-        function gerar() {
+        function gerarAtividade() {
             atualizar();
+            const tipo = get('iTipoAtividade').value;
+            if(tipo === 'cacapalavras') gerarCacaPalavras();
+            else if(tipo === 'discursiva') gerarDiscursivas();
+            else if(tipo === 'multipla') gerarMultiplaEscolha();
+            else if(tipo === 'vf') gerarVerdadeiroFalso();
+        }
+
+        // MOTOR: CAÇA-PALAVRAS
+        function gerarCacaPalavras() {
             const raw = get('iPalavras').value;
-            finalWords = raw.split(',').map(w => w.trim().toUpperCase().replace(/\s/g, '')).filter(w => w.length > 0);
+            const finalWords = raw.split(',').map(w => w.trim().toUpperCase().replace(/\s/g, '')).filter(w => w.length > 0);
             const displayWords = raw.split(',').map(w => w.trim().toUpperCase()).filter(w => w.length > 0);
             
-            if (!finalWords.length) {
-                get('vConteudo').innerHTML = '';
-                return;
-            }
+            if (!finalWords.length) { get('vConteudo').innerHTML = ''; return; }
 
             const size = Math.max(12, Math.max(...finalWords.map(w => w.length)) + 2);
-            
-            // Criar grid vazia como matriz de objetos
             gridData = Array(size).fill(null).map(() => Array(size).fill(null).map(() => ({ letter: '', isWord: false })));
             
             const dif = get('iDificuldade').value;
             let dirs = [];
-            if (dif === 'facil') dirs = [[0, 1], [1, 0]]; // Só direita e baixo
-            else if (dif === 'medio') dirs = [[0, 1], [1, 0], [1, 1], [-1, 1]]; // Direita, Baixo e Diagonais fáceis
-            else dirs = [[0, 1], [1, 0], [1, 1], [-1, 1], [0, -1], [-1, 0], [-1, -1], [1, -1]]; // Todas as 8 direções
+            if (dif === 'facil') dirs = [[0, 1], [1, 0]]; 
+            else if (dif === 'medio') dirs = [[0, 1], [1, 0], [1, 1], [-1, 1]]; 
+            else dirs = [[0, 1], [1, 0], [1, 1], [-1, 1], [0, -1], [-1, 0], [-1, -1], [1, -1]]; 
 
             finalWords.forEach(word => {
                 let ok = false, tries = 0;
                 while (!ok && tries < 200) {
                     const d = dirs[Math.floor(Math.random() * dirs.length)];
-                    const r = Math.floor(Math.random() * size);
-                    const c = Math.floor(Math.random() * size);
+                    const r = Math.floor(Math.random() * size), c = Math.floor(Math.random() * size);
                     let fit = true;
-                    
-                    // Verifica se cabe
                     for (let i = 0; i < word.length; i++) {
                         const nr = r + i * d[0], nc = c + i * d[1];
                         if (nr < 0 || nr >= size || nc < 0 || nc >= size) { fit = false; break; }
                         if (gridData[nr][nc].letter !== '' && gridData[nr][nc].letter !== word[i]) { fit = false; break; }
                     }
-                    
-                    // Se couber, grava
                     if (fit) {
                         for (let i = 0; i < word.length; i++) {
                             gridData[r + i * d[0]][c + i * d[1]].letter = word[i];
-                            gridData[r + i * d[0]][c + i * d[1]].isWord = true; // Marca como parte de palavra para o Gabarito
+                            gridData[r + i * d[0]][c + i * d[1]].isWord = true; 
                         }
                         ok = true;
                     }
@@ -330,29 +316,19 @@
                 }
             });
 
-            // Preenche espaços vazios
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÂÀÁÉÍÓÚÃÕÜÇ';
-            for (let r = 0; r < size; r++) {
-                for (let c = 0; c < size; c++) {
-                    if (gridData[r][c].letter === '') {
-                        gridData[r][c].letter = alphabet[Math.floor(Math.random() * alphabet.length)];
-                    }
-                }
-            }
+            for (let r = 0; r < size; r++)
+                for (let c = 0; c < size; c++)
+                    if (gridData[r][c].letter === '') gridData[r][c].letter = alphabet[Math.floor(Math.random() * alphabet.length)];
 
-            // Armazenar as palavras originais (com espaços, se houver) para imprimir o banco
             gridData.bancoPalavras = displayWords;
-            
             renderGrid();
         }
 
         function renderGrid() {
-            if (!gridData.length) return;
-
-            let html = '<div class="flex flex-wrap justify-center gap-3 mb-8 w-[95%]">';
+            let html = '<div class="flex flex-wrap justify-center gap-3 mb-8 w-[95%] mx-auto">';
             gridData.bancoPalavras.forEach(w => html += `<div class="word-bank-item">${w}</div>`);
-            html += '</div><div class="inline-block p-4">';
-            
+            html += '</div><div class="inline-block p-4 mx-auto">';
             gridData.forEach(row => {
                 html += '<div class="whitespace-nowrap">';
                 row.forEach(cell => {
@@ -362,15 +338,67 @@
                 html += '</div>';
             });
             html += '</div>';
-            
             get('vConteudo').innerHTML = html;
         }
 
+        // MOTOR: QUESTÕES DISCURSIVAS
+        function gerarDiscursivas() {
+            const linesInput = get('iQtdLinhas').value || 4;
+            const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
+            let html = '<div class="w-full flex flex-col gap-6">';
+            
+            questoes.forEach((q, idx) => {
+                html += `<div class="w-full mb-4">
+                            <p class="questao-texto">${idx + 1}) ${q}</p>`;
+                for(let i=0; i<linesInput; i++) {
+                    html += `<div class="linha-pautada"></div>`;
+                }
+                html += `</div>`;
+            });
+            html += '</div>';
+            get('vConteudo').innerHTML = html;
+        }
+
+        // MOTOR: MÚLTIPLA ESCOLHA
+        function gerarMultiplaEscolha() {
+            const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
+            let html = '<div class="w-full flex flex-col gap-8">';
+            
+            questoes.forEach((q, idx) => {
+                html += `<div class="w-full">
+                            <p class="questao-texto">${idx + 1}) ${q}</p>
+                            <div class="pl-4 flex flex-col gap-3 mt-3">
+                                <p>( &nbsp;&nbsp;&nbsp; ) A) ______________________________________________________________________</p>
+                                <p>( &nbsp;&nbsp;&nbsp; ) B) ______________________________________________________________________</p>
+                                <p>( &nbsp;&nbsp;&nbsp; ) C) ______________________________________________________________________</p>
+                                <p>( &nbsp;&nbsp;&nbsp; ) D) ______________________________________________________________________</p>
+                            </div>
+                        </div>`;
+            });
+            html += '</div>';
+            get('vConteudo').innerHTML = html;
+        }
+
+        // MOTOR: VERDADEIRO OU FALSO
+        function gerarVerdadeiroFalso() {
+            const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
+            let html = '<div class="w-full flex flex-col gap-4">';
+            
+            questoes.forEach((q, idx) => {
+                html += `<div class="w-full flex items-start gap-3">
+                            <span class="font-bold text-lg whitespace-nowrap">( &nbsp;&nbsp;&nbsp; )</span>
+                            <p class="questao-texto mt-1">${q}</p>
+                        </div>`;
+            });
+            html += '</div>';
+            get('vConteudo').innerHTML = html;
+        }
+
+        // EXPORTAÇÃO
         async function exportar(tipo) {
             const el = get('folha');
             const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff' });
-            
-            let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Estudantes';
+            let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Escolar';
 
             if (tipo === 'png') {
                 const a = document.createElement('a'); a.download = `${nomeFicheiro}.png`; a.href = canvas.toDataURL('image/png'); a.click();
@@ -383,21 +411,18 @@
             }
         }
 
-        // Inicializar a aplicação
         window.onload = () => {
-            mudarNivel(); // Inicia com Fundamental 1 e 1º Ano
-            gerar();
+            mudarNivel();
+            mudarPainelConfig();
+            gerarAtividade();
         };
 
-        // ==========================================
-        // REGISTO DO SERVICE WORKER (PARA MODO OFFLINE / PWA)
-        // ==========================================
+        // SERVICE WORKER PARA PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Caminho exato para o seu repositório no GitHub Pages
-                navigator.serviceWorker.register('/gerador-de-sementes/sw.js')
-                    .then(reg => console.log('✅ Modo PWA Offline Ativado com Sucesso!'))
-                    .catch(err => console.log('❌ Erro ao iniciar PWA:', err));
+                navigator.serviceWorker.register('/0s-ligado/sw.js')
+                    .then(reg => console.log('Modo PWA Offline Ativado!'))
+                    .catch(err => console.log('Erro PWA:', err));
             });
         }
     </script>
