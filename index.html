@@ -60,16 +60,16 @@
 </head>
 <body class="flex flex-col h-screen overflow-hidden">
 
-    <header class="bg-blue-700 text-white p-4 shadow-lg flex-shrink-0 z-20 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <h1 class="text-xl font-bold tracking-tight">GeraTarefas <span class="font-light opacity-80">Universal</span></h1>
-        </div>
-        <div class="flex gap-2">
-            <button onclick="toggleGabarito()" id="btnGabarito" class="px-4 py-2 bg-yellow-400 text-yellow-900 hover:bg-yellow-300 rounded-lg text-sm font-bold transition-all shadow-md mr-2 hidden">
+    <!-- CABEÇALHO REFEITO PARA TELEMÓVEL -->
+    <header class="bg-blue-700 text-white p-3 shadow-lg flex-shrink-0 z-20 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <h1 class="text-xl font-bold tracking-tight text-center w-full sm:w-auto">GeraTarefas <span class="font-light opacity-80">Universal</span></h1>
+        
+        <div class="flex gap-2 w-full sm:w-auto justify-center">
+            <button onclick="toggleGabarito()" id="btnGabarito" class="px-3 py-2 bg-yellow-400 text-yellow-900 hover:bg-yellow-300 rounded text-sm font-bold shadow-md hidden">
                 👁️ Gabarito
             </button>
-            <button onclick="exportar('png')" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold border border-blue-400 transition-all">Baixar PNG</button>
-            <button onclick="exportar('pdf')" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 rounded-lg text-sm font-bold transition-all shadow-md">Baixar PDF</button>
+            <button onclick="exportar('png')" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm font-bold border border-blue-400">🖼️ PNG</button>
+            <button onclick="exportar('pdf')" class="px-3 py-2 bg-white text-blue-700 hover:bg-blue-50 rounded text-sm font-bold shadow-md">📄 PDF</button>
         </div>
     </header>
 
@@ -111,7 +111,6 @@
                 <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Título e Conteúdo</h2>
                 
                 <label class="text-[10px] font-bold text-slate-500 uppercase">Qual o título da sua atividade?</label>
-                <!-- A MÁGICA ESTÁ AQUI: Campo de digitação livre com datalist -->
                 <input type="text" id="iTipoAtividade" list="tiposPadrao" oninput="mudarPainelConfig()" class="w-full p-3 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-900 mb-4 uppercase" placeholder="Ex: Continhas de Matemática">
                 <datalist id="tiposPadrao">
                     <option value="Caça-Palavras">
@@ -120,7 +119,7 @@
                     <option value="Verdadeiro ou Falso">
                 </datalist>
 
-                <!-- PAINEL: CAÇA PALAVRAS (Só aparece se o título tiver "CAÇA") -->
+                <!-- PAINEL: CAÇA PALAVRAS -->
                 <div id="painel-cacapalavras" class="space-y-4 config-painel hidden">
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade do Algoritmo</label>
@@ -140,7 +139,7 @@
                     </div>
                 </div>
 
-                <!-- PAINEL: QUESTÕES AUTOMÁTICAS (Aparece se o título tiver "Discursiva", "Múltipla", etc) -->
+                <!-- PAINEL: QUESTÕES AUTOMÁTICAS -->
                 <div id="painel-questoes" class="space-y-4 config-painel hidden">
                     <div id="config-linhas" class="hidden">
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Número de linhas por questão</label>
@@ -156,7 +155,7 @@
                     </div>
                 </div>
 
-                <!-- PAINEL: ATIVIDADE PERSONALIZADA (Aparece para "Continhas", etc) -->
+                <!-- PAINEL: ATIVIDADE PERSONALIZADA LIVRE -->
                 <div id="painel-livre" class="space-y-4 config-painel hidden">
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções (Opcional)</label>
@@ -164,13 +163,20 @@
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-blue-600 uppercase">Conteúdo da sua Atividade (Livre)</label>
-                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-blue-300 bg-blue-50 rounded mt-1 font-mono" placeholder="Exemplo:&#10;&#10;1) 25 + 14 = _____&#10;&#10;2) 50 - 20 = _____&#10;&#10;3) 3 x 4 = _____&#10;&#10;(O que você digitar aqui vai aparecer na folha exatamente igual!)"></textarea>
+                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-blue-300 bg-blue-50 rounded mt-1 font-mono" placeholder="Exemplo:&#10;&#10;1) 25 + 14 = _____&#10;&#10;2) 50 - 20 = _____&#10;&#10;3) 3 x 4 = _____"></textarea>
                     </div>
                 </div>
 
-                <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-5 shadow hover:bg-blue-800 transition-transform active:scale-95">
+                <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-6 shadow hover:bg-blue-800 transition-transform active:scale-95">
                     ⚙️ GERAR FOLHA A4
                 </button>
+
+                <!-- NOVOS BOTÕES DE DOWNLOAD EXTRA NO PAINEL PARA O TELEMÓVEL -->
+                <div class="flex gap-2 mt-3">
+                    <button onclick="exportar('png')" class="w-1/2 bg-slate-200 text-slate-700 font-bold py-2 rounded shadow hover:bg-slate-300 text-sm">🖼️ Baixar PNG</button>
+                    <button onclick="exportar('pdf')" class="w-1/2 bg-blue-100 text-blue-800 font-bold py-2 rounded shadow hover:bg-blue-200 text-sm">📄 Baixar PDF</button>
+                </div>
+
             </div>
         </aside>
 
@@ -196,10 +202,8 @@
                     </div>
                 </div>
 
-                <!-- TÍTULO DA ATIVIDADE NA FOLHA -->
                 <div id="vTituloAtividade" class="text-center text-lg font-bold uppercase tracking-widest mb-2 mt-2"></div>
                 <div id="vInstrucoes" class="text-center text-[15px] font-medium mb-6 px-4"></div>
-
                 <div id="vConteudo" class="flex-1 flex flex-col w-full text-black"></div>
 
             </div>
@@ -219,10 +223,8 @@
             get('vTurma').innerText = get('iTurma').value;
             get('vTurno').innerText = get('iTurno').value;
             
-            // O Título que você inventou aparece em negrito na folha!
             get('vTituloAtividade').innerText = get('iTipoAtividade').value;
 
-            // Ajusta as instruções conforme o painel que estiver aberto
             if(!get('painel-cacapalavras').classList.contains('hidden')) {
                 get('vInstrucoes').innerText = get('iInstrucoesCP').value;
             } else if(!get('painel-livre').classList.contains('hidden')) {
@@ -236,12 +238,10 @@
             const titulo = get('iTipoAtividade').value.toLowerCase();
             const btnGabarito = get('btnGabarito');
             
-            // Esconde todos os painéis primeiro
             document.querySelectorAll('.config-painel').forEach(p => p.classList.add('hidden'));
             btnGabarito.style.display = 'none';
             get('config-linhas').classList.add('hidden');
 
-            // RECONHECIMENTO INTELIGENTE DE PALAVRAS
             if(titulo.includes('caça') || titulo.includes('caca') || titulo.includes('palavra')) {
                 get('painel-cacapalavras').classList.remove('hidden');
                 btnGabarito.style.display = 'block';
@@ -257,7 +257,6 @@
                 get('painel-questoes').classList.remove('hidden');
             } 
             else {
-                // Se for "Continhas de matemática" ou qualquer outra coisa, abre o criador livre!
                 get('painel-livre').classList.remove('hidden');
             }
             
@@ -274,7 +273,6 @@
             atualizar();
             const titulo = get('iTipoAtividade').value.toLowerCase();
             
-            // Direciona para o gerador certo com base no que você escreveu
             if(titulo.includes('caça') || titulo.includes('caca') || titulo.includes('palavra')) {
                 gerarCacaPalavras();
             } else if (titulo.includes('discursiva') || titulo.includes('aberta')) {
@@ -284,7 +282,7 @@
             } else if (titulo.includes('verdadeiro') || titulo.includes('falso') || titulo.includes('v ou f')) {
                 gerarVerdadeiroFalso();
             } else {
-                gerarLivre(); // Gerador para "Continhas", etc.
+                gerarLivre(); 
             }
         }
 
@@ -424,7 +422,6 @@
         }
 
         window.onload = () => {
-            // Inicia com um título em branco
             get('iTipoAtividade').value = "Caça-Palavras";
             mudarPainelConfig();
             gerarAtividade();
