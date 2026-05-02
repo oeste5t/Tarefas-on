@@ -23,9 +23,9 @@
         
         .a4-paper {
             width: 210mm; 
-            height: 297mm; /* TRAVADO NO TAMANHO A4 EXATO */
+            height: 297mm; 
             max-height: 297mm;
-            overflow: hidden; /* Se passar do limite da folha, não estica */
+            overflow: hidden; 
             background: white; 
             position: relative;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
@@ -77,6 +77,7 @@
         
         <aside class="w-full lg:w-[420px] bg-white border-r border-slate-200 overflow-y-auto flex-shrink-0 shadow-xl pb-10">
             
+            <!-- CABEÇALHO COM CAMPOS LIVRES -->
             <div class="p-5 border-b border-slate-100 bg-slate-50">
                 <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">1. Cabeçalho da Folha</h2>
                 <div class="space-y-3">
@@ -84,60 +85,46 @@
                     
                     <div class="flex gap-2">
                         <input type="text" id="iProfessor" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Professor(a)">
-                        <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Matéria/Disciplina">
+                        
+                        <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Disciplina (Pode digitar)">
                         <datalist id="materiasList">
-                            <option value="Língua Portuguesa">
-                            <option value="Matemática">
-                            <option value="História">
-                            <option value="Geografia">
-                            <option value="Ciências">
-                            <option value="Física">
-                            <option value="Química">
-                            <option value="Biologia">
-                            <option value="Inglês">
-                            <option value="Artes">
-                            <option value="Educação Física">
+                            <option value="Língua Portuguesa"><option value="Matemática"><option value="História"><option value="Geografia"><option value="Ciências">
                         </datalist>
                     </div>
                     
-                    <div class="p-3 bg-white border border-slate-200 rounded shadow-sm">
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Nível de Ensino e Ano/Série</label>
-                        <select id="iNivel" onchange="mudarNivel()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
-                            <option value="fund1">Ensino Fundamental I</option>
-                            <option value="fund2">Ensino Fundamental II</option>
-                            <option value="medio">Ensino Médio</option>
-                            <option value="superior">Ensino Superior / Curso</option>
-                        </select>
-                        <select id="iSerie" onchange="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-2"></select>
-                    </div>
-
+                    <!-- Substituímos o Nível por um campo de Série totalmente livre -->
                     <div class="flex gap-2">
-                        <input type="text" id="iTurma" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Turma (Ex: A)">
-                        <select id="iTurno" onchange="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded">
-                            <option value="Matutino">Matutino</option>
-                            <option value="Vespertino">Vespertino</option>
-                            <option value="Noturno">Noturno</option>
-                            <option value="Integral">Integral</option>
-                        </select>
+                        <input type="text" id="iSerie" list="serieList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Série/Ano (Pode digitar)">
+                        <datalist id="serieList">
+                            <option value="1º Ano"><option value="5º Ano"><option value="1ª Série (Ensino Médio)"><option value="Educação Infantil">
+                        </datalist>
+
+                        <input type="text" id="iTurma" oninput="atualizar()" class="w-1/4 p-2 text-sm border border-slate-300 rounded" placeholder="Turma">
+                        
+                        <input type="text" id="iTurno" list="turnoList" oninput="atualizar()" class="w-1/4 p-2 text-sm border border-slate-300 rounded" placeholder="Turno">
+                        <datalist id="turnoList">
+                            <option value="Matutino"><option value="Vespertino"><option value="Noturno"><option value="Integral">
+                        </datalist>
                     </div>
                 </div>
             </div>
 
+            <!-- CONFIGURAÇÃO DA ATIVIDADE -->
             <div class="p-5">
-                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Configuração da Tarefa</h2>
+                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Tipo e Conteúdo</h2>
                 
                 <label class="text-[10px] font-bold text-slate-500 uppercase">Tipo de Atividade</label>
                 <select id="iTipoAtividade" onchange="mudarPainelConfig()" class="w-full p-2 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-800 mb-4">
                     <option value="cacapalavras">🧩 Caça-Palavras</option>
-                    <option value="discursiva">✍️ Questões Discursivas (Linhas)</option>
-                    <option value="multipla">✅ Múltipla Escolha (A, B, C, D)</option>
-                    <option value="vf">⚖️ Verdadeiro ou Falso (V ou F)</option>
+                    <option value="discursiva">✍️ Questões Discursivas (Com Linhas)</option>
+                    <option value="multipla">✅ Múltipla Escolha Automática</option>
+                    <option value="livre">📝 Texto Livre (Faça do seu jeito)</option>
                 </select>
 
                 <!-- PAINEL: CAÇA PALAVRAS -->
                 <div id="painel-cacapalavras" class="space-y-4 config-painel">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade do Algoritmo</label>
                         <select id="iDificuldade" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
                             <option value="facil">Fácil (Só Horizontal e Vertical)</option>
                             <option value="medio">Médio (Inclui Diagonais)</option>
@@ -149,12 +136,12 @@
                         <textarea id="iPalavras" rows="3" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS, MATEMÁTICA, PORTUGUÊS</textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado / Instruções</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado</label>
                         <textarea id="iInstrucoesCP" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Encontre as seguintes palavras no diagrama abaixo:</textarea>
                     </div>
                 </div>
 
-                <!-- PAINEL: QUESTÕES DIVERSAS -->
+                <!-- PAINEL: QUESTÕES -->
                 <div id="painel-questoes" class="space-y-4 config-painel hidden">
                     <div id="config-linhas" class="hidden">
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Número de linhas por questão</label>
@@ -165,20 +152,30 @@
                         <textarea id="iTextoQuestoes" rows="8" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex:&#10;Qual é a capital do Brasil?&#10;Quem descobriu o Brasil?"></textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado / Instruções</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado</label>
                         <textarea id="iInstrucoesQuest" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Leia atentamente as questões abaixo e responda:</textarea>
                     </div>
-                    
-                    <p class="text-xs text-red-500 text-center font-bold">Atenção: Se as questões cortarem ou sumirem no final, reduza a quantidade para caber na folha A4.</p>
+                </div>
+
+                <!-- NOVO PAINEL: TEXTO LIVRE -->
+                <div id="painel-livre" class="space-y-4 config-painel hidden">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado Inicial (Opcional)</label>
+                        <textarea id="iInstrucoesLivre" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex: Leia o texto abaixo com atenção..."></textarea>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Sua Atividade Livre</label>
+                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Escreva aqui tudo do seu jeito. Espaços, linhas em branco, alternativas que você mesmo criar, etc. Será impresso exatamente como digitar."></textarea>
+                    </div>
                 </div>
 
                 <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-5 shadow hover:bg-blue-800 transition-transform active:scale-95">
-                    ⚙️ GERAR ATIVIDADE
+                    ⚙️ ATUALIZAR FOLHA
                 </button>
             </div>
         </aside>
 
-        <!-- PRÉ-VISUALIZAÇÃO DA FOLHA A4 -->
+        <!-- FOLHA A4 -->
         <section class="flex-1 overflow-y-auto bg-slate-300 a4-wrapper">
             <div id="folha" class="a4-paper flex flex-col">
                 
@@ -201,7 +198,6 @@
                 </div>
 
                 <div id="vInstrucoes" class="text-center text-[15px] font-medium mb-6 px-4"></div>
-
                 <div id="vConteudo" class="flex-1 flex flex-col w-full text-black"></div>
 
             </div>
@@ -213,26 +209,6 @@
         let gridData = [];
         let showingGabarito = false;
 
-        const seriesDict = {
-            'fund1': ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'],
-            'fund2': ['6º Ano', '7º Ano', '8º Ano', '9º Ano'],
-            'medio': ['1ª Série', '2ª Série', '3ª Série'],
-            'superior': ['Semestre Único', '1º Semestre', '2º Semestre', 'Módulo 1', 'Módulo 2', 'N/A']
-        };
-
-        function mudarNivel() {
-            const nivelVal = get('iNivel').value;
-            const series = seriesDict[nivelVal];
-            const selectSerie = get('iSerie');
-            selectSerie.innerHTML = '';
-            series.forEach(s => {
-                let opt = document.createElement('option');
-                opt.value = s; opt.innerText = s;
-                selectSerie.appendChild(opt);
-            });
-            atualizar();
-        }
-
         function atualizar() {
             get('vEscola').innerText = get('iEscola').value;
             get('vProfessor').innerText = get('iProfessor').value;
@@ -242,31 +218,29 @@
             get('vTurno').innerText = get('iTurno').value;
             
             const tipo = get('iTipoAtividade').value;
-            if(tipo === 'cacapalavras') {
-                get('vInstrucoes').innerText = get('iInstrucoesCP').value;
-            } else {
-                get('vInstrucoes').innerText = get('iInstrucoesQuest').value;
-            }
+            if(tipo === 'cacapalavras') get('vInstrucoes').innerText = get('iInstrucoesCP').value;
+            else if(tipo === 'livre') get('vInstrucoes').innerText = get('iInstrucoesLivre').value;
+            else get('vInstrucoes').innerText = get('iInstrucoesQuest').value;
         }
 
         function mudarPainelConfig() {
             const tipo = get('iTipoAtividade').value;
             const btnGabarito = get('btnGabarito');
             
+            // Esconde todos os painéis
+            document.querySelectorAll('.config-painel').forEach(p => p.classList.add('hidden'));
+            btnGabarito.style.display = 'none';
+            get('config-linhas').classList.add('hidden');
+
+            // Mostra o painel correto
             if(tipo === 'cacapalavras') {
                 get('painel-cacapalavras').classList.remove('hidden');
-                get('painel-questoes').classList.add('hidden');
                 btnGabarito.style.display = 'block';
+            } else if (tipo === 'livre') {
+                get('painel-livre').classList.remove('hidden');
             } else {
-                get('painel-cacapalavras').classList.add('hidden');
                 get('painel-questoes').classList.remove('hidden');
-                btnGabarito.style.display = 'none';
-                
-                if(tipo === 'discursiva') {
-                    get('config-linhas').classList.remove('hidden');
-                } else {
-                    get('config-linhas').classList.add('hidden');
-                }
+                if(tipo === 'discursiva') get('config-linhas').classList.remove('hidden');
             }
             atualizar();
         }
@@ -283,7 +257,7 @@
             if(tipo === 'cacapalavras') gerarCacaPalavras();
             else if(tipo === 'discursiva') gerarDiscursivas();
             else if(tipo === 'multipla') gerarMultiplaEscolha();
-            else if(tipo === 'vf') gerarVerdadeiroFalso();
+            else if(tipo === 'livre') gerarLivre();
         }
 
         function gerarCacaPalavras() {
@@ -353,7 +327,6 @@
             const linesInput = get('iQtdLinhas').value || 4;
             const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
             let html = '<div class="w-full flex flex-col gap-6">';
-            
             questoes.forEach((q, idx) => {
                 html += `<div class="w-full mb-4"><p class="questao-texto">${idx + 1}) ${q}</p>`;
                 for(let i=0; i<linesInput; i++) { html += `<div class="linha-pautada"></div>`; }
@@ -381,36 +354,20 @@
             get('vConteudo').innerHTML = html;
         }
 
-        function gerarVerdadeiroFalso() {
-            const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
-            let html = '<div class="w-full flex flex-col gap-4">';
-            questoes.forEach((q, idx) => {
-                html += `<div class="w-full flex items-start gap-3">
-                            <span class="font-bold text-lg whitespace-nowrap">( &nbsp;&nbsp;&nbsp; )</span>
-                            <p class="questao-texto mt-1">${q}</p>
-                        </div>`;
-            });
-            html += '</div>';
-            get('vConteudo').innerHTML = html;
+        // NOVO MOTOR: TEXTO LIVRE
+        function gerarLivre() {
+            const textoLivre = get('iTextoLivre').value;
+            // white-space: pre-wrap garante que os 'enters' e espaços que o professor der sejam respeitados na folha.
+            get('vConteudo').innerHTML = `<div class="w-full text-justify text-[16px] leading-relaxed" style="white-space: pre-wrap; padding: 0 10px;">${textoLivre}</div>`;
         }
 
-        // FUNÇÃO DE EXPORTAÇÃO CORRIGIDA CONTRA CORTES
         async function exportar(tipo) {
             const el = get('folha');
             const wrapper = document.querySelector('.a4-wrapper');
-            
-            // Corrige o bug do html2canvas cortando o cabeçalho no celular
             const scrollAtual = wrapper.scrollTop;
-            wrapper.scrollTop = 0;
-            window.scrollTo(0, 0);
+            wrapper.scrollTop = 0; window.scrollTo(0, 0);
 
-            const canvas = await html2canvas(el, { 
-                scale: 2, 
-                backgroundColor: '#ffffff',
-                scrollY: 0
-            });
-            
-            // Volta para onde o utilizador estava
+            const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', scrollY: 0 });
             wrapper.scrollTop = scrollAtual;
             
             let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Escolar';
@@ -419,7 +376,6 @@
                 const a = document.createElement('a'); a.download = `${nomeFicheiro}.png`; a.href = canvas.toDataURL('image/png'); a.click();
             } else {
                 const { jsPDF } = window.jspdf;
-                // Força o PDF a ser formato A4 exato, encaixando a imagem gerada
                 const doc = new jsPDF({ format: 'a4', unit: 'mm' });
                 const w = doc.internal.pageSize.getWidth();
                 const h = doc.internal.pageSize.getHeight();
@@ -429,7 +385,6 @@
         }
 
         window.onload = () => {
-            mudarNivel();
             mudarPainelConfig();
             gerarAtividade();
         };
