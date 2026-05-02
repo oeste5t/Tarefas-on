@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeraTarefas Pro Studio</title>
     
-    <!-- TAGS DO PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1d4ed8">
     <link rel="apple-touch-icon" href="icon.png">
@@ -21,6 +20,7 @@
         
         .a4-wrapper { width: 100%; overflow-x: auto; padding: 2rem; display: flex; justify-content: center; }
         
+        /* O TAMANHO PADRÃO EXATO DE UMA FOLHA A4 FÍSICA */
         .a4-paper {
             width: 210mm; 
             height: 297mm; 
@@ -42,18 +42,16 @@
         .header-label { font-weight: 700; margin-right: 5px; white-space: nowrap; }
         .header-line { flex-grow: 1; border-bottom: 1.5px solid #000; min-height: 20px; text-transform: uppercase; padding-left: 5px; font-family: 'Courier New', Courier, monospace; font-weight: bold;}
 
-        /* Estilos do Caça-Palavras */
         .word-bank-item { border: 1.5px solid #000; padding: 4px 12px; font-size: 13px; text-transform: uppercase; font-weight: 700; min-width: 110px; text-align: center; }
         .grid-letter { display: inline-block; width: 1.8em; height: 1.8em; line-height: 1.8em; text-align: center; font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: 600; }
         .is-word-gabarito { background-color: #fde047 !important; border-radius: 50%; color: #000 !important; font-weight: 800; }
 
-        /* Estilos de Pautas e Questões */
         .linha-pautada { width: 100%; border-bottom: 1px solid #94a3b8; height: 1.8rem; margin-top: 0.5rem; }
         .questao-texto { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; text-align: justify; }
 
         @media print {
             header, aside { display: none !important; }
-            .a4-wrapper { padding: 0 !important; background: white !important; overflow: visible !important; }
+            .a4-wrapper { padding: 0 !important; background: white !important; }
             .a4-paper { box-shadow: none !important; border: none !important; }
         }
     </style>
@@ -83,7 +81,6 @@
                     
                     <div class="flex gap-2">
                         <input type="text" id="iProfessor" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Professor(a)">
-                        
                         <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Disciplina">
                         <datalist id="materiasList">
                             <option value="Língua Portuguesa"><option value="Matemática"><option value="História"><option value="Geografia"><option value="Ciências">
@@ -95,9 +92,7 @@
                         <datalist id="serieList">
                             <option value="1º Ano"><option value="5º Ano"><option value="1ª Série"><option value="Educação Infantil">
                         </datalist>
-
                         <input type="text" id="iTurma" oninput="atualizar()" class="w-1/4 p-2 text-sm border border-slate-300 rounded" placeholder="Turma">
-                        
                         <input type="text" id="iTurno" list="turnoList" oninput="atualizar()" class="w-1/4 p-2 text-sm border border-slate-300 rounded" placeholder="Turno">
                         <datalist id="turnoList">
                             <option value="Matutino"><option value="Vespertino"><option value="Noturno"><option value="Integral">
@@ -112,57 +107,50 @@
                 <label class="text-[10px] font-bold text-slate-500 uppercase">Qual o título da sua atividade?</label>
                 <input type="text" id="iTipoAtividade" list="tiposPadrao" oninput="mudarPainelConfig()" class="w-full p-3 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-900 mb-4 uppercase" placeholder="Ex: Continhas de Matemática">
                 <datalist id="tiposPadrao">
-                    <option value="Caça-Palavras">
-                    <option value="Questões Discursivas">
-                    <option value="Múltipla Escolha">
-                    <option value="Verdadeiro ou Falso">
+                    <option value="Caça-Palavras"><option value="Questões Discursivas"><option value="Múltipla Escolha"><option value="Verdadeiro ou Falso">
                 </datalist>
 
-                <!-- PAINEL: CAÇA PALAVRAS -->
+                <!-- PAINÉIS DE CONFIGURAÇÃO (Caça-Palavras, Questões, Livre) -->
                 <div id="painel-cacapalavras" class="space-y-4 config-painel hidden">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade do Algoritmo</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade</label>
                         <select id="iDificuldade" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
-                            <option value="facil">Fácil (Só Horizontal e Vertical)</option>
-                            <option value="medio">Médio (Inclui Diagonais)</option>
-                            <option value="dificil">Difícil (Diagonais e Palavras Invertidas)</option>
+                            <option value="facil">Fácil</option><option value="medio">Médio</option><option value="dificil">Difícil</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Palavras (separadas por vírgula)</label>
-                        <textarea id="iPalavras" rows="3" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS, MATEMÁTICA, PORTUGUÊS</textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Palavras (vírgula)</label>
+                        <textarea id="iPalavras" rows="3" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS</textarea>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções</label>
-                        <textarea id="iInstrucoesCP" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Encontre as seguintes palavras no diagrama abaixo:</textarea>
+                        <textarea id="iInstrucoesCP" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Encontre as palavras:</textarea>
                     </div>
                 </div>
 
-                <!-- PAINEL: QUESTÕES AUTOMÁTICAS -->
                 <div id="painel-questoes" class="space-y-4 config-painel hidden">
                     <div id="config-linhas" class="hidden">
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Número de linhas por questão</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Linhas por questão</label>
                         <input type="number" id="iQtdLinhas" value="4" min="1" max="20" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Cole suas perguntas (Uma por linha)</label>
-                        <textarea id="iTextoQuestoes" rows="8" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex:&#10;Qual é a capital do Brasil?&#10;Quem descobriu o Brasil?"></textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Perguntas</label>
+                        <textarea id="iTextoQuestoes" rows="8" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex: Qual a capital de Portugal?"></textarea>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções</label>
-                        <textarea id="iInstrucoesQuest" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Leia atentamente as questões abaixo e responda:</textarea>
+                        <textarea id="iInstrucoesQuest" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Responda:</textarea>
                     </div>
                 </div>
 
-                <!-- PAINEL: ATIVIDADE PERSONALIZADA LIVRE -->
                 <div id="painel-livre" class="space-y-4 config-painel hidden">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções (Opcional)</label>
-                        <textarea id="iInstrucoesLivre" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex: Resolva as operações matemáticas abaixo:"></textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções</label>
+                        <textarea id="iInstrucoesLivre" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Opcional"></textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-blue-600 uppercase">Conteúdo da sua Atividade (Livre)</label>
-                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-blue-300 bg-blue-50 rounded mt-1 font-mono" placeholder="Exemplo:&#10;&#10;1) 25 + 14 = _____&#10;&#10;2) 50 - 20 = _____&#10;&#10;3) 3 x 4 = _____"></textarea>
+                        <label class="text-[10px] font-bold text-blue-600 uppercase">Conteúdo Livre</label>
+                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-blue-300 bg-blue-50 rounded mt-1 font-mono" placeholder="Ex: 2 + 2 = ___"></textarea>
                     </div>
                 </div>
 
@@ -170,7 +158,6 @@
                     ⚙️ ATUALIZAR FOLHA
                 </button>
 
-                <!-- BOTÕES DE DOWNLOAD EXTRA NO PAINEL -->
                 <div class="flex gap-2 mt-3">
                     <button onclick="exportar('png')" class="w-1/2 bg-slate-200 text-slate-700 font-bold py-2 rounded shadow hover:bg-slate-300 text-sm">🖼️ Baixar PNG</button>
                     <button onclick="exportar('pdf')" class="w-1/2 bg-blue-100 text-blue-800 font-bold py-2 rounded shadow hover:bg-blue-200 text-sm">📄 Baixar PDF</button>
@@ -244,21 +231,16 @@
             if(titulo.includes('caça') || titulo.includes('caca') || titulo.includes('palavra')) {
                 get('painel-cacapalavras').classList.remove('hidden');
                 btnGabarito.style.display = 'block';
-            } 
-            else if (titulo.includes('discursiva') || titulo.includes('aberta')) {
+            } else if (titulo.includes('discursiva') || titulo.includes('aberta')) {
                 get('painel-questoes').classList.remove('hidden');
                 get('config-linhas').classList.remove('hidden');
-            } 
-            else if (titulo.includes('múltipla') || titulo.includes('multipla') || titulo.includes('escolha')) {
+            } else if (titulo.includes('múltipla') || titulo.includes('multipla') || titulo.includes('escolha')) {
                 get('painel-questoes').classList.remove('hidden');
-            }
-            else if (titulo.includes('verdadeiro') || titulo.includes('falso') || titulo.includes('v ou f')) {
+            } else if (titulo.includes('verdadeiro') || titulo.includes('falso') || titulo.includes('v ou f')) {
                 get('painel-questoes').classList.remove('hidden');
-            } 
-            else {
+            } else {
                 get('painel-livre').classList.remove('hidden');
             }
-            
             atualizar();
         }
 
@@ -289,7 +271,6 @@
             const raw = get('iPalavras').value;
             const finalWords = raw.split(',').map(w => w.trim().toUpperCase().replace(/\s/g, '')).filter(w => w.length > 0);
             const displayWords = raw.split(',').map(w => w.trim().toUpperCase()).filter(w => w.length > 0);
-            
             if (!finalWords.length) { get('vConteudo').innerHTML = ''; return; }
 
             const size = Math.max(12, Math.max(...finalWords.map(w => w.length)) + 2);
@@ -398,47 +379,50 @@
         }
 
         // ==========================================
-        // O TRUQUE NINJA PARA NÃO CORTAR NO TELEMÓVEL
+        // O TRUQUE NINJA DO CLONE PARA EXPORTAÇÃO
         // ==========================================
         async function exportar(tipo) {
-            const el = get('folha');
-            const wrapper = document.querySelector('.a4-wrapper');
+            const folhaOriginal = get('folha');
             
-            // 1. Guardar onde o usuário estava
-            const scrollAtual = wrapper.scrollTop;
-            const overflowWrapperOriginal = wrapper.style.overflow;
-            const overflowFolhaOriginal = el.style.overflow;
-
-            // 2. Zerar a rolagem e remover limites para a "câmera" ver tudo
-            wrapper.scrollTop = 0; 
-            window.scrollTo(0, 0);
-            wrapper.style.overflow = 'visible';
-            el.style.overflow = 'visible';
-
-            // 3. Tirar a foto
-            const canvas = await html2canvas(el, { 
-                scale: 2, 
-                backgroundColor: '#ffffff', 
-                scrollY: -window.scrollY // Garante que a foto pega desde o topo exato
-            });
+            // 1. Criamos um clone exato da folha
+            const clone = folhaOriginal.cloneNode(true);
             
-            // 4. Restaurar tudo ao normal (o usuário nem percebe!)
-            wrapper.style.overflow = overflowWrapperOriginal;
-            el.style.overflow = overflowFolhaOriginal;
-            wrapper.scrollTop = scrollAtual;
-            
-            let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Escolar';
+            // 2. Colocamos o clone no topo absoluto do corpo do site, fora das barras de rolagem
+            clone.style.position = 'absolute';
+            clone.style.top = '0px';
+            clone.style.left = '0px';
+            clone.style.margin = '0';
+            clone.style.zIndex = '-9999'; // Esconde para o utilizador não ver o piscar
+            document.body.appendChild(clone);
 
-            // 5. Baixar o arquivo
-            if (tipo === 'png') {
-                const a = document.createElement('a'); a.download = `${nomeFicheiro}.png`; a.href = canvas.toDataURL('image/png'); a.click();
-            } else {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ format: 'a4', unit: 'mm' });
-                const w = doc.internal.pageSize.getWidth();
-                const h = doc.internal.pageSize.getHeight();
-                doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, w, h);
-                doc.save(`${nomeFicheiro}.pdf`);
+            try {
+                // 3. Tiramos a foto do clone (que está perfeitamente desenhado e visível para a "câmara")
+                const canvas = await html2canvas(clone, { 
+                    scale: 2, 
+                    backgroundColor: '#ffffff',
+                    scrollY: 0,
+                    scrollX: 0
+                });
+                
+                // 4. Apagamos o clone
+                document.body.removeChild(clone);
+                
+                let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Escolar';
+
+                // 5. Baixar o arquivo
+                if (tipo === 'png') {
+                    const a = document.createElement('a'); a.download = `${nomeFicheiro}.png`; a.href = canvas.toDataURL('image/png'); a.click();
+                } else {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF({ format: 'a4', unit: 'mm' });
+                    const w = doc.internal.pageSize.getWidth();
+                    const h = doc.internal.pageSize.getHeight();
+                    doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, w, h);
+                    doc.save(`${nomeFicheiro}.pdf`);
+                }
+            } catch(e) {
+                console.error("Erro ao gerar imagem:", e);
+                if(document.body.contains(clone)) document.body.removeChild(clone);
             }
         }
 
@@ -457,4 +441,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
