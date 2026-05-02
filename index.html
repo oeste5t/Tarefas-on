@@ -36,7 +36,7 @@
             color: #000;
         }
 
-        .header-box { border: 2px solid #000; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+        .header-box { border: 2px solid #000; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
         .header-row { display: flex; gap: 15px; width: 100%; }
         .header-field { display: flex; align-items: flex-end; flex-grow: 1; }
         .header-label { font-weight: 700; margin-right: 5px; white-space: nowrap; }
@@ -65,8 +65,8 @@
             <h1 class="text-xl font-bold tracking-tight">GeraTarefas <span class="font-light opacity-80">Universal</span></h1>
         </div>
         <div class="flex gap-2">
-            <button onclick="toggleGabarito()" id="btnGabarito" class="px-4 py-2 bg-yellow-400 text-yellow-900 hover:bg-yellow-300 rounded-lg text-sm font-bold transition-all shadow-md mr-2">
-                👁️ Gabarito (Caça-Palavras)
+            <button onclick="toggleGabarito()" id="btnGabarito" class="px-4 py-2 bg-yellow-400 text-yellow-900 hover:bg-yellow-300 rounded-lg text-sm font-bold transition-all shadow-md mr-2 hidden">
+                👁️ Gabarito
             </button>
             <button onclick="exportar('png')" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold border border-blue-400 transition-all">Baixar PNG</button>
             <button onclick="exportar('pdf')" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 rounded-lg text-sm font-bold transition-all shadow-md">Baixar PDF</button>
@@ -77,7 +77,6 @@
         
         <aside class="w-full lg:w-[420px] bg-white border-r border-slate-200 overflow-y-auto flex-shrink-0 shadow-xl pb-10">
             
-            <!-- CABEÇALHO COM CAMPOS LIVRES -->
             <div class="p-5 border-b border-slate-100 bg-slate-50">
                 <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">1. Cabeçalho da Folha</h2>
                 <div class="space-y-3">
@@ -86,17 +85,16 @@
                     <div class="flex gap-2">
                         <input type="text" id="iProfessor" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Professor(a)">
                         
-                        <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Disciplina (Pode digitar)">
+                        <input type="text" id="iDisciplina" list="materiasList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Disciplina">
                         <datalist id="materiasList">
                             <option value="Língua Portuguesa"><option value="Matemática"><option value="História"><option value="Geografia"><option value="Ciências">
                         </datalist>
                     </div>
                     
-                    <!-- Substituímos o Nível por um campo de Série totalmente livre -->
                     <div class="flex gap-2">
-                        <input type="text" id="iSerie" list="serieList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Série/Ano (Pode digitar)">
+                        <input type="text" id="iSerie" list="serieList" oninput="atualizar()" class="w-1/2 p-2 text-sm border border-slate-300 rounded" placeholder="Série/Ano">
                         <datalist id="serieList">
-                            <option value="1º Ano"><option value="5º Ano"><option value="1ª Série (Ensino Médio)"><option value="Educação Infantil">
+                            <option value="1º Ano"><option value="5º Ano"><option value="1ª Série"><option value="Educação Infantil">
                         </datalist>
 
                         <input type="text" id="iTurma" oninput="atualizar()" class="w-1/4 p-2 text-sm border border-slate-300 rounded" placeholder="Turma">
@@ -109,20 +107,21 @@
                 </div>
             </div>
 
-            <!-- CONFIGURAÇÃO DA ATIVIDADE -->
             <div class="p-5">
-                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Tipo e Conteúdo</h2>
+                <h2 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-4">2. Título e Conteúdo</h2>
                 
-                <label class="text-[10px] font-bold text-slate-500 uppercase">Tipo de Atividade</label>
-                <select id="iTipoAtividade" onchange="mudarPainelConfig()" class="w-full p-2 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-800 mb-4">
-                    <option value="cacapalavras">🧩 Caça-Palavras</option>
-                    <option value="discursiva">✍️ Questões Discursivas (Com Linhas)</option>
-                    <option value="multipla">✅ Múltipla Escolha Automática</option>
-                    <option value="livre">📝 Texto Livre (Faça do seu jeito)</option>
-                </select>
+                <label class="text-[10px] font-bold text-slate-500 uppercase">Qual o título da sua atividade?</label>
+                <!-- A MÁGICA ESTÁ AQUI: Campo de digitação livre com datalist -->
+                <input type="text" id="iTipoAtividade" list="tiposPadrao" oninput="mudarPainelConfig()" class="w-full p-3 text-sm border-2 border-blue-400 rounded mt-1 bg-blue-50 font-bold text-blue-900 mb-4 uppercase" placeholder="Ex: Continhas de Matemática">
+                <datalist id="tiposPadrao">
+                    <option value="Caça-Palavras">
+                    <option value="Questões Discursivas">
+                    <option value="Múltipla Escolha">
+                    <option value="Verdadeiro ou Falso">
+                </datalist>
 
-                <!-- PAINEL: CAÇA PALAVRAS -->
-                <div id="painel-cacapalavras" class="space-y-4 config-painel">
+                <!-- PAINEL: CAÇA PALAVRAS (Só aparece se o título tiver "CAÇA") -->
+                <div id="painel-cacapalavras" class="space-y-4 config-painel hidden">
                     <div>
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Dificuldade do Algoritmo</label>
                         <select id="iDificuldade" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">
@@ -136,12 +135,12 @@
                         <textarea id="iPalavras" rows="3" class="w-full p-2 text-sm border border-slate-300 rounded mt-1 uppercase">GEOGRAFIA, HISTÓRIA, CIÊNCIAS, MATEMÁTICA, PORTUGUÊS</textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções</label>
                         <textarea id="iInstrucoesCP" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Encontre as seguintes palavras no diagrama abaixo:</textarea>
                     </div>
                 </div>
 
-                <!-- PAINEL: QUESTÕES -->
+                <!-- PAINEL: QUESTÕES AUTOMÁTICAS (Aparece se o título tiver "Discursiva", "Múltipla", etc) -->
                 <div id="painel-questoes" class="space-y-4 config-painel hidden">
                     <div id="config-linhas" class="hidden">
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Número de linhas por questão</label>
@@ -152,25 +151,25 @@
                         <textarea id="iTextoQuestoes" rows="8" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex:&#10;Qual é a capital do Brasil?&#10;Quem descobriu o Brasil?"></textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções</label>
                         <textarea id="iInstrucoesQuest" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1">Leia atentamente as questões abaixo e responda:</textarea>
                     </div>
                 </div>
 
-                <!-- NOVO PAINEL: TEXTO LIVRE -->
+                <!-- PAINEL: ATIVIDADE PERSONALIZADA (Aparece para "Continhas", etc) -->
                 <div id="painel-livre" class="space-y-4 config-painel hidden">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Enunciado Inicial (Opcional)</label>
-                        <textarea id="iInstrucoesLivre" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex: Leia o texto abaixo com atenção..."></textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Instruções (Opcional)</label>
+                        <textarea id="iInstrucoesLivre" rows="2" oninput="atualizar()" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Ex: Resolva as operações matemáticas abaixo:"></textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-500 uppercase">Sua Atividade Livre</label>
-                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-slate-300 rounded mt-1" placeholder="Escreva aqui tudo do seu jeito. Espaços, linhas em branco, alternativas que você mesmo criar, etc. Será impresso exatamente como digitar."></textarea>
+                        <label class="text-[10px] font-bold text-blue-600 uppercase">Conteúdo da sua Atividade (Livre)</label>
+                        <textarea id="iTextoLivre" rows="12" class="w-full p-2 text-sm border border-blue-300 bg-blue-50 rounded mt-1 font-mono" placeholder="Exemplo:&#10;&#10;1) 25 + 14 = _____&#10;&#10;2) 50 - 20 = _____&#10;&#10;3) 3 x 4 = _____&#10;&#10;(O que você digitar aqui vai aparecer na folha exatamente igual!)"></textarea>
                     </div>
                 </div>
 
                 <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-5 shadow hover:bg-blue-800 transition-transform active:scale-95">
-                    ⚙️ ATUALIZAR FOLHA
+                    ⚙️ GERAR FOLHA A4
                 </button>
             </div>
         </aside>
@@ -197,7 +196,10 @@
                     </div>
                 </div>
 
+                <!-- TÍTULO DA ATIVIDADE NA FOLHA -->
+                <div id="vTituloAtividade" class="text-center text-lg font-bold uppercase tracking-widest mb-2 mt-2"></div>
                 <div id="vInstrucoes" class="text-center text-[15px] font-medium mb-6 px-4"></div>
+
                 <div id="vConteudo" class="flex-1 flex flex-col w-full text-black"></div>
 
             </div>
@@ -217,47 +219,73 @@
             get('vTurma').innerText = get('iTurma').value;
             get('vTurno').innerText = get('iTurno').value;
             
-            const tipo = get('iTipoAtividade').value;
-            if(tipo === 'cacapalavras') get('vInstrucoes').innerText = get('iInstrucoesCP').value;
-            else if(tipo === 'livre') get('vInstrucoes').innerText = get('iInstrucoesLivre').value;
-            else get('vInstrucoes').innerText = get('iInstrucoesQuest').value;
+            // O Título que você inventou aparece em negrito na folha!
+            get('vTituloAtividade').innerText = get('iTipoAtividade').value;
+
+            // Ajusta as instruções conforme o painel que estiver aberto
+            if(!get('painel-cacapalavras').classList.contains('hidden')) {
+                get('vInstrucoes').innerText = get('iInstrucoesCP').value;
+            } else if(!get('painel-livre').classList.contains('hidden')) {
+                get('vInstrucoes').innerText = get('iInstrucoesLivre').value;
+            } else {
+                get('vInstrucoes').innerText = get('iInstrucoesQuest').value;
+            }
         }
 
         function mudarPainelConfig() {
-            const tipo = get('iTipoAtividade').value;
+            const titulo = get('iTipoAtividade').value.toLowerCase();
             const btnGabarito = get('btnGabarito');
             
-            // Esconde todos os painéis
+            // Esconde todos os painéis primeiro
             document.querySelectorAll('.config-painel').forEach(p => p.classList.add('hidden'));
             btnGabarito.style.display = 'none';
             get('config-linhas').classList.add('hidden');
 
-            // Mostra o painel correto
-            if(tipo === 'cacapalavras') {
+            // RECONHECIMENTO INTELIGENTE DE PALAVRAS
+            if(titulo.includes('caça') || titulo.includes('caca') || titulo.includes('palavra')) {
                 get('painel-cacapalavras').classList.remove('hidden');
                 btnGabarito.style.display = 'block';
-            } else if (tipo === 'livre') {
-                get('painel-livre').classList.remove('hidden');
-            } else {
+            } 
+            else if (titulo.includes('discursiva') || titulo.includes('aberta')) {
                 get('painel-questoes').classList.remove('hidden');
-                if(tipo === 'discursiva') get('config-linhas').classList.remove('hidden');
+                get('config-linhas').classList.remove('hidden');
+            } 
+            else if (titulo.includes('múltipla') || titulo.includes('multipla') || titulo.includes('escolha')) {
+                get('painel-questoes').classList.remove('hidden');
             }
+            else if (titulo.includes('verdadeiro') || titulo.includes('falso') || titulo.includes('v ou f')) {
+                get('painel-questoes').classList.remove('hidden');
+            } 
+            else {
+                // Se for "Continhas de matemática" ou qualquer outra coisa, abre o criador livre!
+                get('painel-livre').classList.remove('hidden');
+            }
+            
             atualizar();
         }
 
         function toggleGabarito() {
             showingGabarito = !showingGabarito;
-            get('btnGabarito').innerText = showingGabarito ? "❌ Ocultar Gabarito" : "👁️ Ver Gabarito";
-            if(get('iTipoAtividade').value === 'cacapalavras') renderGrid();
+            get('btnGabarito').innerText = showingGabarito ? "❌ Ocultar Gabarito" : "👁️ Gabarito";
+            renderGrid();
         }
 
         function gerarAtividade() {
             atualizar();
-            const tipo = get('iTipoAtividade').value;
-            if(tipo === 'cacapalavras') gerarCacaPalavras();
-            else if(tipo === 'discursiva') gerarDiscursivas();
-            else if(tipo === 'multipla') gerarMultiplaEscolha();
-            else if(tipo === 'livre') gerarLivre();
+            const titulo = get('iTipoAtividade').value.toLowerCase();
+            
+            // Direciona para o gerador certo com base no que você escreveu
+            if(titulo.includes('caça') || titulo.includes('caca') || titulo.includes('palavra')) {
+                gerarCacaPalavras();
+            } else if (titulo.includes('discursiva') || titulo.includes('aberta')) {
+                gerarDiscursivas();
+            } else if (titulo.includes('múltipla') || titulo.includes('multipla') || titulo.includes('escolha')) {
+                gerarMultiplaEscolha();
+            } else if (titulo.includes('verdadeiro') || titulo.includes('falso') || titulo.includes('v ou f')) {
+                gerarVerdadeiroFalso();
+            } else {
+                gerarLivre(); // Gerador para "Continhas", etc.
+            }
         }
 
         function gerarCacaPalavras() {
@@ -326,7 +354,7 @@
         function gerarDiscursivas() {
             const linesInput = get('iQtdLinhas').value || 4;
             const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
-            let html = '<div class="w-full flex flex-col gap-6">';
+            let html = '<div class="w-full flex flex-col gap-6 px-4">';
             questoes.forEach((q, idx) => {
                 html += `<div class="w-full mb-4"><p class="questao-texto">${idx + 1}) ${q}</p>`;
                 for(let i=0; i<linesInput; i++) { html += `<div class="linha-pautada"></div>`; }
@@ -338,7 +366,7 @@
 
         function gerarMultiplaEscolha() {
             const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
-            let html = '<div class="w-full flex flex-col gap-8">';
+            let html = '<div class="w-full flex flex-col gap-8 px-4">';
             questoes.forEach((q, idx) => {
                 html += `<div class="w-full">
                             <p class="questao-texto">${idx + 1}) ${q}</p>
@@ -354,11 +382,22 @@
             get('vConteudo').innerHTML = html;
         }
 
-        // NOVO MOTOR: TEXTO LIVRE
+        function gerarVerdadeiroFalso() {
+            const questoes = get('iTextoQuestoes').value.split('\n').filter(q => q.trim() !== '');
+            let html = '<div class="w-full flex flex-col gap-4 px-4">';
+            questoes.forEach((q, idx) => {
+                html += `<div class="w-full flex items-start gap-3">
+                            <span class="font-bold text-lg whitespace-nowrap">( &nbsp;&nbsp;&nbsp; )</span>
+                            <p class="questao-texto mt-1">${q}</p>
+                        </div>`;
+            });
+            html += '</div>';
+            get('vConteudo').innerHTML = html;
+        }
+
         function gerarLivre() {
             const textoLivre = get('iTextoLivre').value;
-            // white-space: pre-wrap garante que os 'enters' e espaços que o professor der sejam respeitados na folha.
-            get('vConteudo').innerHTML = `<div class="w-full text-justify text-[16px] leading-relaxed" style="white-space: pre-wrap; padding: 0 10px;">${textoLivre}</div>`;
+            get('vConteudo').innerHTML = `<div class="w-full text-justify text-[18px] leading-loose font-medium" style="white-space: pre-wrap; padding: 0 20px;">${textoLivre}</div>`;
         }
 
         async function exportar(tipo) {
@@ -385,6 +424,8 @@
         }
 
         window.onload = () => {
+            // Inicia com um título em branco
+            get('iTipoAtividade').value = "Caça-Palavras";
             mudarPainelConfig();
             gerarAtividade();
         };
