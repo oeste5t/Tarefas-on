@@ -53,14 +53,13 @@
 
         @media print {
             header, aside { display: none !important; }
-            .a4-wrapper { padding: 0 !important; background: white !important; }
+            .a4-wrapper { padding: 0 !important; background: white !important; overflow: visible !important; }
             .a4-paper { box-shadow: none !important; border: none !important; }
         }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden">
 
-    <!-- CABEÇALHO REFEITO PARA TELEMÓVEL -->
     <header class="bg-blue-700 text-white p-3 shadow-lg flex-shrink-0 z-20 flex flex-col sm:flex-row justify-between items-center gap-3">
         <h1 class="text-xl font-bold tracking-tight text-center w-full sm:w-auto">GeraTarefas <span class="font-light opacity-80">Universal</span></h1>
         
@@ -168,10 +167,10 @@
                 </div>
 
                 <button onclick="gerarAtividade()" class="w-full bg-blue-700 text-white font-bold py-3 rounded mt-6 shadow hover:bg-blue-800 transition-transform active:scale-95">
-                    ⚙️ GERAR FOLHA A4
+                    ⚙️ ATUALIZAR FOLHA
                 </button>
 
-                <!-- NOVOS BOTÕES DE DOWNLOAD EXTRA NO PAINEL PARA O TELEMÓVEL -->
+                <!-- BOTÕES DE DOWNLOAD EXTRA NO PAINEL -->
                 <div class="flex gap-2 mt-3">
                     <button onclick="exportar('png')" class="w-1/2 bg-slate-200 text-slate-700 font-bold py-2 rounded shadow hover:bg-slate-300 text-sm">🖼️ Baixar PNG</button>
                     <button onclick="exportar('pdf')" class="w-1/2 bg-blue-100 text-blue-800 font-bold py-2 rounded shadow hover:bg-blue-200 text-sm">📄 Baixar PDF</button>
@@ -398,17 +397,39 @@
             get('vConteudo').innerHTML = `<div class="w-full text-justify text-[18px] leading-loose font-medium" style="white-space: pre-wrap; padding: 0 20px;">${textoLivre}</div>`;
         }
 
+        // ==========================================
+        // O TRUQUE NINJA PARA NÃO CORTAR NO TELEMÓVEL
+        // ==========================================
         async function exportar(tipo) {
             const el = get('folha');
             const wrapper = document.querySelector('.a4-wrapper');
+            
+            // 1. Guardar onde o usuário estava
             const scrollAtual = wrapper.scrollTop;
-            wrapper.scrollTop = 0; window.scrollTo(0, 0);
+            const overflowWrapperOriginal = wrapper.style.overflow;
+            const overflowFolhaOriginal = el.style.overflow;
 
-            const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', scrollY: 0 });
+            // 2. Zerar a rolagem e remover limites para a "câmera" ver tudo
+            wrapper.scrollTop = 0; 
+            window.scrollTo(0, 0);
+            wrapper.style.overflow = 'visible';
+            el.style.overflow = 'visible';
+
+            // 3. Tirar a foto
+            const canvas = await html2canvas(el, { 
+                scale: 2, 
+                backgroundColor: '#ffffff', 
+                scrollY: -window.scrollY // Garante que a foto pega desde o topo exato
+            });
+            
+            // 4. Restaurar tudo ao normal (o usuário nem percebe!)
+            wrapper.style.overflow = overflowWrapperOriginal;
+            el.style.overflow = overflowFolhaOriginal;
             wrapper.scrollTop = scrollAtual;
             
             let nomeFicheiro = showingGabarito ? 'Gabarito_Tarefa' : 'Tarefa_Escolar';
 
+            // 5. Baixar o arquivo
             if (tipo === 'png') {
                 const a = document.createElement('a'); a.download = `${nomeFicheiro}.png`; a.href = canvas.toDataURL('image/png'); a.click();
             } else {
@@ -436,4 +457,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
